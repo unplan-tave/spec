@@ -5,6 +5,7 @@ Unplan의 **기획 명세 단일 진실 공급원(SSOT)** 레포입니다.
 
 - 최상위 규칙: [`.specify/memory/constitution.md`](.specify/memory/constitution.md)
 - 지금 결정이 필요한 것: [`specs/_shared/open-questions.md`](specs/_shared/open-questions.md)
+- **파트별 확인·수정 방법: [`CONTRIBUTING.md`](CONTRIBUTING.md)**
 
 ## 구조
 
@@ -43,6 +44,8 @@ scripts/check-specs.ts   일관성 검사 (CI에서 실행)
 FE/BE 커밋·PR·테스트 이름, Figma 프레임 이름에 이 ID를 넣어 주세요.
 
 ## 파트별 작업 방법
+
+> 단계별 상세 안내(GitHub 웹 편집, 리뷰, submodule 업데이트, CI 실패 대처)는 [CONTRIBUTING.md](CONTRIBUTING.md)에 있습니다.
 
 ### 기획
 1. `open-questions.md`의 질문을 Issue(`clarification` 라벨)로 만들고 회의에서 결정합니다.

@@ -45,7 +45,7 @@ const sharedFiles: SpecFile[] = readdirSync(SHARED)
 // --- 3. Q-ID 등록부 ---
 const oq = read(join(SHARED, "open-questions.md"));
 const definedQ = new Map<string, number>();
-for (const m of oq.matchAll(/^\|\s*(Q-\d{3})\s*\|/gm)) {
+for (const m of oq.matchAll(/^\|\s*\[?(Q-\d{3})\]?(?:\([^)]*\))?\s*\|/gm)) {
   definedQ.set(m[1], (definedQ.get(m[1]) ?? 0) + 1);
 }
 for (const [id, n] of definedQ) if (n > 1) errors.push(`open-questions.md: ${id} 가 ${n}번 정의되어 있습니다`);

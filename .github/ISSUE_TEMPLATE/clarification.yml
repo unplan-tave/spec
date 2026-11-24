@@ -1,0 +1,33 @@
+name: 결정 필요 (Clarification)
+description: 명세에서 정해지지 않았거나 서로 맞지 않는 부분
+labels: ["clarification"]
+body:
+  - type: input
+    id: qid
+    attributes:
+      label: 질문 ID
+      description: open-questions.md에 있는 ID. 새 질문이면 비워 두면 기획이 번호를 붙인다.
+      placeholder: Q-004
+  - type: input
+    id: spec
+    attributes:
+      label: 관련 spec / FR / 화면
+      placeholder: 004-card, FR-CARD-074, CARD-DETAIL-PIN
+  - type: textarea
+    id: question
+    attributes:
+      label: 무엇이 정해지지 않았나
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: 선택지와 영향
+      description: 선택지마다 디자인/FE/BE에 어떤 영향이 있는지
+  - type: dropdown
+    id: blocker
+    attributes:
+      label: 구현을 막고 있나
+      options: ["예 - 지금 작업이 멈춤", "아니오 - 나중에 결정해도 됨"]
+    validations:
+      required: true

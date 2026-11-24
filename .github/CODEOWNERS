@@ -1,0 +1,23 @@
+# 명세 계층별 소유자 (constitution.md "문서 계층과 소유권")
+# 아래 팀은 GitHub organization에 만들어야 동작한다:
+#   unplan-tave/planning, unplan-tave/design, unplan-tave/frontend, unplan-tave/backend
+# main 브랜치 보호 규칙에서 "Require review from Code Owners"를 켜야 강제된다.
+
+# 기본: 기획 승인
+*                                   @unplan-tave/planning
+
+# 헌법 개정은 기획 + 각 파트 리드
+/.specify/memory/constitution.md    @unplan-tave/planning @unplan-tave/design @unplan-tave/frontend @unplan-tave/backend
+
+# 공통 문서, 기능 요구사항
+/specs/                             @unplan-tave/planning
+
+# 화면 맵은 디자인도 함께 소유 (Figma 링크, GNB 노출)
+/specs/_shared/screen-map.md        @unplan-tave/planning @unplan-tave/design
+
+# 도메인 모델은 BE도 함께 소유
+/specs/_shared/domain-model.md      @unplan-tave/planning @unplan-tave/backend
+
+# 검사 도구, CI
+/scripts/                           @unplan-tave/frontend @unplan-tave/backend
+/.github/                           @unplan-tave/planning

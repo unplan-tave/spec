@@ -1,0 +1,12 @@
+{
+  "name": "unplan-tave-spec",
+  "private": true,
+  "type": "module",
+  "description": "Unplan 기획 명세 SSOT (spec-kit)",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "check": "node scripts/check-specs.ts"
+  }
+}

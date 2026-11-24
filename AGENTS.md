@@ -32,6 +32,22 @@ AI 코딩 에이전트(Claude Code, Codex 등)가 이 레포에서 작업할 때
 
 결정 내용이 모호하거나 다른 요구사항과 충돌하면 고치지 말고 사용자에게 먼저 묻는다.
 
+## 새 기능 추가 · 기존 기능 변경
+
+절차와 ID 규칙의 자세한 내용은 `CONTRIBUTING.md` "새 기능 추가 · 기존 기획 변경"에 있다.
+
+- **새 기능**: `speckit-specify` 스킬로 초안을 만든다. 템플릿은 `.specify/templates/overrides/spec-template.md`(우리 양식)가 자동으로 쓰인다.
+  - 같은 PR에서 새 화면은 `screen-map.md`, 새 용어는 `glossary.md`, 새 데이터는 `domain-model.md`에 등록한다.
+  - 요구사항 약어는 다른 spec과 겹치지 않는 새 대문자 약어로 정하고 `CONTRIBUTING.md` 약어 표에 추가한다.
+  - 정해지지 않은 것은 `open-questions.md`에 다음 번호로 등록한다.
+  - Status는 `Draft`로 둔다. 사용자 요청 없이 `Approved`로 올리지 않는다.
+- **기존 기능 변경**:
+  - 새 요구사항은 그 spec의 마지막 번호 다음을 쓴다.
+  - 요구사항을 지울 때는 줄을 남기고 `~~삭제~~ (날짜, #이슈) 사유`로 표시한다. 번호를 재사용하지 않는다.
+  - 의미가 완전히 바뀌면 기존 번호를 삭제 표시하고 새 번호를 쓴다. 같은 번호의 의미를 바꾸지 않는다.
+  - 다른 spec이나 `_shared/` 문서에 영향이 있으면 같은 PR에서 함께 고친다.
+  - `Changelog`에 한 줄 남기고, `Approved` 이상이면 `Clarified`로 내린다.
+
 ## 변경 절차
 
 - `main`에 직접 커밋·push하지 않는다. 브랜치를 만들고 PR을 올린다.

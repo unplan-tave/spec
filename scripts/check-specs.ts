@@ -5,7 +5,7 @@
  *
  * 검사 항목
  *  1. 각 spec.md의 Status 값이 허용된 값인지
- *  2. FR-ID가 레포 전체에서 중복되지 않는지
+ *  2. FR-ID가 레포 전체에서 중복되지 않는지 + 도메인 약어(FR-<약어>-)는 spec 하나에서만 쓰는지
  *  3. 문서에서 참조한 Q-ID가 open-questions.md에 등록되어 있는지 + Q-ID 중복
  *  4. Status가 Approved / Implemented 인 spec에 NEEDS CLARIFICATION 이 남아 있지 않은지
  *  5. "관련 화면"에 적은 화면 ID가 screen-map.md에 있는지
@@ -63,6 +63,7 @@ const screens = new Set([...screenMap.matchAll(/^\|\s*`([A-Z][A-Z0-9-]*(?:-\*)?)
 
 // --- spec별 검사 ---
 const frSeen = new Map<string, string>();
+const prefixOwner = new Map<string, string>();
 const summary: { name: string; status: string; open: number }[] = [];
 
 for (const s of specs) {
@@ -77,6 +78,10 @@ for (const s of specs) {
     const prev = frSeen.get(m[1]);
     if (prev) errors.push(`${s.name}: ${m[1]} 가 ${prev} 에도 정의되어 있습니다`);
     else frSeen.set(m[1], s.name);
+    const prefix = m[1].replace(/-\d{3}$/, "");
+    const owner = prefixOwner.get(prefix);
+    if (!owner) prefixOwner.set(prefix, s.name);
+    else if (owner !== s.name) errors.push(`${s.name}: 약어 ${prefix} 가 ${owner} 에서도 쓰입니다 (spec마다 다른 약어 사용)`);
   }
 
   // 4. 승인된 spec의 미결 질문

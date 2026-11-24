@@ -1,0 +1,48 @@
+name: 기능 제안 · 변경 요청
+description: 새 기능을 추가하거나 기존 기획을 바꾸자는 제안
+labels: ["feature-request"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 유형
+      options: ["새 기능", "기존 기능 변경"]
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: 관련 spec / FR / 화면
+      description: 기존 기능 변경이면 바꿀 대상을 적습니다. 새 기능이면 비워도 됩니다.
+      placeholder: 004-card, FR-CARD-045, EDIT-DATETIME
+  - type: textarea
+    id: background
+    attributes:
+      label: 배경 · 이유
+      description: 왜 필요한가 (사용자 문제, 데이터, 피드백 등)
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: 원하는 동작
+      description: 사용자 입장에서 어떻게 동작해야 하는가. 시안이 있으면 Figma 링크를 붙입니다.
+    validations:
+      required: true
+  - type: textarea
+    id: open
+    attributes:
+      label: 아직 정하지 못한 것
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: 영향 파트 (아는 만큼)
+      options:
+        - label: 디자인
+        - label: FE
+        - label: BE
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 우선순위
+      options: ["P1 - 이번 마일스톤", "P2 - 다음 마일스톤", "P3 - 나중에"]

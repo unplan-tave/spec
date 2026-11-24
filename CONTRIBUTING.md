@@ -28,6 +28,63 @@ flowchart LR
 
 ---
 
+## 새 기능 추가 · 기존 기획 변경
+
+변경 크기에 따라 절차가 다릅니다.
+
+| 크기 | 예 | 절차 |
+|---|---|---|
+| **작은 수정** | 문구, 수치 하나, 질문(Q) 결정 반영 | 해당 spec을 바로 고쳐 PR |
+| **기존 기능 변경** | 흐름 변경, 요구사항 추가·삭제 | ① 변경 요청 Issue → ② spec 수정 PR |
+| **새 기능** | 지금 spec 9개에 없는 기능 | ① 기능 제안 Issue → ② 새 spec 초안 PR → ③ 질문 결정 → ④ 승인 |
+
+### 새 기능 추가
+
+1. **Issue 만들기**: New issue → **기능 제안 · 변경 요청** → 유형 "새 기능". 배경, 원하는 동작, 우선순위를 적습니다.
+2. **spec 초안 만들기** (둘 중 편한 방법)
+   - **AI 에이전트**: Claude Code `/speckit-specify`, Codex `$speckit-specify` 뒤에 기능 설명과 Issue 번호를 적습니다.
+     예: `/speckit-specify 날짜별 메모를 친구에게 공유하는 기능. Issue #120` → `specs/010-memo-share/spec.md`가 우리 양식으로 만들어집니다.
+   - **직접 작성**: [`.specify/templates/overrides/spec-template.md`](.specify/templates/overrides/spec-template.md) 내용을 복사해 `specs/<다음 번호>-<영문-이름>/spec.md`로 만듭니다. 번호는 가장 큰 번호 다음입니다 (현재 마지막 009 → 010).
+3. **공통 문서에 등록** (같은 PR 안에서)
+   - 새 화면 → `specs/_shared/screen-map.md`에 화면 ID 추가
+   - 새 용어·상태값 → `glossary.md`
+   - 새 데이터·속성 → `domain-model.md`
+   - 정해지지 않은 것 → `open-questions.md`에 Q 추가 (다음 번호), 머지 후 Issue로 등록
+   - 요구사항 ID 약어는 아래 표에 없는 새 약어를 정해 표에 추가합니다.
+4. **Draft 상태로 PR → 머지**: Draft도 `main`에 머지해도 됩니다. FE·BE는 `Approved`만 구현하므로 초안이 일찍 공유될수록 좋습니다.
+5. **질문 결정 → Clarified → 4개 파트 리뷰 → Approved** (기존 spec과 같음)
+
+### 기존 기획 변경
+
+1. **Issue 만들기**: **기능 제안 · 변경 요청** → 유형 "기존 기능 변경". 바꿀 spec·FR-ID와 이유를 적습니다.
+2. **spec 수정 PR**에서 아래 규칙을 지킵니다.
+   - **요구사항 추가**: 그 spec의 마지막 번호 다음 번호를 씁니다. 중간 번호를 끼워 넣지 않습니다.
+   - **요구사항 삭제**: 줄을 지우지 않고 남겨 둡니다. `- **FR-CARD-016**: ~~삭제~~ (2026-12-01, #120) 사유`. 지운 번호는 다시 쓰지 않습니다.
+   - **의미가 완전히 바뀌는 변경**: 기존 번호는 삭제 표시하고 새 번호를 씁니다. FE·BE 코드와 테스트가 FR-ID로 연결되어 있어서, 같은 번호의 의미가 바뀌면 추적이 깨집니다.
+   - **다른 spec·공통 문서에 영향**이 있으면 같은 PR에서 함께 고치거나, 정하지 못한 부분은 질문으로 등록합니다.
+3. **상태와 기록**
+   - `Approved` 이상인 spec을 바꾸면 `Status`를 `Clarified`로 내립니다. 다시 리뷰를 받아 `Approved`로 올립니다.
+   - `Changelog`에 날짜, 바뀐 내용, Issue 번호를 한 줄로 남깁니다.
+   - 이미 구현된(`Implemented`) 기능을 바꾸면 PR 템플릿의 FE·BE 영향을 체크합니다. 담당 파트에 리뷰 요청이 갑니다.
+
+### 도메인 약어 (FR-ID)
+
+| spec | 약어 | 예 |
+|---|---|---|
+| 001-auth | `AUTH` | FR-AUTH-001 |
+| 002-onboarding | `ONB` | FR-ONB-010 |
+| 003-home | `HOME` | FR-HOME-020 |
+| 004-card | `CARD` | FR-CARD-045 |
+| 005-card-list | `LIST` | FR-LIST-011 |
+| 006-condition | `COND` | FR-COND-050 |
+| 007-recommendation | `REC` | FR-REC-020 |
+| 008-notification | `NOTI` | FR-NOTI-010 |
+| 009-settings | `SET` | FR-SET-030 |
+
+약어 하나는 spec 하나에만 씁니다 (CI가 검사합니다).
+
+---
+
 ## 기획 · 디자인 (git 없이 GitHub 웹으로)
 
 ### 1. 확인하기
@@ -87,6 +144,7 @@ PR 아래에 빨간 ✕ 가 보이면 **Details**를 누르세요. 한국어로 
 | `Status 가 Approved 인데 NEEDS CLARIFICATION 이 …개` | 남은 질문을 먼저 결정하거나 Status를 `Draft`로 되돌림 |
 | `FR-CARD-045 가 … 에도 정의되어 있습니다` | 번호가 겹침. 새 요구사항은 그 spec의 마지막 번호 다음을 사용 |
 | `화면 ID … 가 screen-map.md 에 없습니다` | `screen-map.md`에 화면을 먼저 추가 |
+| `약어 FR-XXX 가 … 에서도 쓰입니다` | 다른 spec의 약어를 썼음. 이 spec만의 새 약어로 변경 |
 
 ### 디자인 추가 규칙
 

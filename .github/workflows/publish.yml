@@ -1,0 +1,28 @@
+name: publish
+
+# main이 바뀌면 명세 문서만 담은 `published` 브랜치를 갱신한다.
+# FE·BE 레포는 `published`를 submodule로 연결한다 (README "FE / BE" 참고).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 일관성 검사
+        run: node scripts/check-specs.ts
+      - name: published 브랜치 갱신
+        run: bash scripts/publish.sh --push

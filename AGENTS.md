@@ -8,6 +8,7 @@ AI 코딩 에이전트(Claude Code, Codex 등)가 이 레포에서 작업할 때
 - Unplan의 기획 명세 SSOT다. 앱 코드는 없고 명세 문서만 있다.
 - 최상위 규칙은 `.specify/memory/constitution.md`다. 작업 전에 읽고 따른다.
 - 사람용 작업 안내는 `CONTRIBUTING.md`에 있다.
+- `published` 브랜치는 CI(`scripts/publish.sh`)가 자동 생성한다. 직접 커밋하거나 수정하지 않는다.
 
 ## 작성 규칙
 

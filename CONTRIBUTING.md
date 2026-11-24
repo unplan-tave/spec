@@ -101,7 +101,7 @@ PR 아래에 빨간 ✕ 가 보이면 **Details**를 누르세요. 한국어로 
 ### 1. 처음 한 번: 내 레포에 연결
 
 ```bash
-git submodule add https://github.com/unplan-tave/spec.git spec
+git submodule add -b published https://github.com/unplan-tave/spec.git spec
 ```
 
 ```bash
@@ -114,7 +114,19 @@ git commit -m "chore: 명세 레포 연결"
 git submodule update --init
 ```
 
-submodule은 **특정 커밋에 고정**됩니다. 그래서 FE/BE 레포의 각 커밋이 "어느 시점의 명세로 구현했는지"를 기록하게 됩니다.
+- `published`는 CI가 `main`에서 **명세 문서만** 골라 만드는 배포용 브랜치입니다. 이 레포의 `AGENTS.md`, `CLAUDE.md`, 스킬, 설정은 들어 있지 않아서 FE·BE 레포의 에이전트 설정·스킬과 섞이지 않습니다.
+- `spec/`은 읽기 전용입니다. 안에서 고쳐도 `published`에 push할 수 없습니다 (CI만 push 가능). 명세 변경은 이 레포 `main`에 Issue·PR로 합니다.
+- submodule은 **특정 커밋에 고정**됩니다. 그래서 FE/BE 레포의 각 커밋이 "어느 시점의 명세로 구현했는지"를 기록하게 됩니다. 원본 `main` 커밋은 `spec/published.json`과 `spec/README.md`에 적혀 있습니다.
+
+이미 `main`으로 연결했다면 아래 두 줄로 바꿉니다.
+
+```bash
+git submodule set-branch --branch published spec
+```
+
+```bash
+git submodule update --remote spec && git add .gitmodules spec && git commit -m "chore: spec을 published 브랜치로 연결"
+```
 
 ### 2. 명세 업데이트 받기
 
@@ -129,14 +141,15 @@ git add spec && git commit -m "chore: spec 업데이트 (Q-004, Q-022 반영)"
 받기 전에 무엇이 바뀌는지 확인합니다 (예: 카드 spec만).
 
 ```bash
-git -C spec fetch origin main && git -C spec log --oneline HEAD..origin/main -- specs/004-card specs/_shared
+git -C spec fetch origin published && git -C spec log --oneline HEAD..origin/published -- specs/004-card specs/_shared
 ```
 
 ```bash
-git -C spec diff HEAD..origin/main -- specs/004-card
+git -C spec diff HEAD..origin/published -- specs/004-card
 ```
 
 - 명세 버전 올리기는 **별도 PR**로 합니다 (`chore: spec 업데이트 (Q-004, Q-022 반영)`). 리뷰어가 어떤 요구사항 변경에 맞춰 코드를 바꾸는지 보기 쉽습니다.
+- 커밋 메시지 `publish: main@abc1234`로 원본 명세 커밋을 알 수 있습니다. 바뀐 이유는 그 커밋의 PR에 있습니다.
 - 마일스톤마다 이 레포에 태그(`v0.1` 등)를 붙이면 FE와 BE가 같은 버전에 맞추기 쉽습니다.
 
 ### 3. 무엇을 구현해도 되는지 확인

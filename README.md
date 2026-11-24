@@ -29,6 +29,7 @@ specs/
   009-settings/spec.md        설정
 archive/                 원본 Google Sheets 내보내기 (읽기 전용, 첫 열 = 원본 행 번호 R###)
 scripts/check-specs.ts   일관성 검사 (CI에서 실행)
+scripts/publish.sh       published 브랜치 생성 (CI에서 실행)
 ```
 
 ## ID 규칙
@@ -57,11 +58,13 @@ FE/BE 커밋·PR·테스트 이름, Figma 프레임 이름에 이 ID를 넣어 �
 - 문구·토스트·빈 상태는 각 spec의 `UI Notes`에 적습니다.
 
 ### FE / BE
-- 각 레포에 이 레포를 submodule로 연결합니다.
+- 각 레포에 이 레포의 **`published` 브랜치**를 submodule로 연결합니다.
 
   ```bash
-  git submodule add https://github.com/unplan-tave/spec.git spec
+  git submodule add -b published https://github.com/unplan-tave/spec.git spec
   ```
+
+  `published`는 `main`이 바뀔 때마다 CI가 자동으로 만드는 **배포용 브랜치**로, 명세 문서(`specs/`, `archive/`, `constitution.md`)만 들어 있습니다. 이 레포의 에이전트 지침·스킬·설정은 FE·BE 레포에 들어가지 않습니다. 직접 수정할 수 없고, 명세 변경은 항상 `main`에 PR로 합니다.
 
 - `Approved` 상태인 spec만 구현을 시작합니다.
 - 구현 계획(`plan.md`), 작업 목록(`tasks.md`), API 계약(`openapi.yaml`)은 각 레포에서 관리하되, 요구사항은 `spec/specs/...`를 참조합니다.
@@ -94,6 +97,13 @@ Node 22.18 이상이 필요합니다. PR마다 CI(`spec-check`)에서 같은 검
 ## 처음 한 번 설정 (organization 관리자)
 
 1. Teams 만들기: `planning`, `design`, `frontend`, `backend` (CODEOWNERS가 사용)
-2. `main` 브랜치 보호: PR 필수, Code Owner 리뷰 필수, `spec-check` 통과 필수
-3. Issue 라벨 만들기: `clarification`
-4. 원본 Google Sheets를 보기 전용으로 바꾸고 상단에 이 레포 링크 남기기
+2. `main` 브랜치 보호 (Settings → Rules → Rulesets, 대상 `main`)
+   - Require a pull request before merging + Require review from Code Owners
+   - Require status checks to pass: `check` (spec-check)
+   - Block force pushes, Restrict deletions
+3. `published` 브랜치 보호 (대상 `published`)
+   - Restrict updates, Block force pushes, Restrict deletions
+   - CI(`publish` 워크플로)가 push할 수 있도록 bypass 목록에 GitHub Actions를 추가합니다. 조직 설정상 추가할 수 없으면 이 브랜치 전용 GitHub App 토큰으로 push하도록 워크플로를 바꿔야 합니다.
+4. Settings → General → **Automatically delete head branches** 켜기 (쌓인 PR이 엉뚱한 브랜치로 머지되는 것을 막음)
+5. Issue 라벨 `clarification` (생성 완료)
+6. 원본 Google Sheets를 보기 전용으로 바꾸고 상단에 이 레포 링크 남기기

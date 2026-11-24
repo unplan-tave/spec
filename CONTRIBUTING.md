@@ -66,9 +66,10 @@ flowchart LR
 2. 왼쪽 파일 목록에서 여러 파일을 고칩니다.
 3. 왼쪽 **Source Control** 아이콘 → 변경 내용 설명 입력 → **Commit & Push** → 새 브랜치를 만들겠냐는 안내에서 **Create new branch**를 고르고 → 이어서 뜨는 안내로 PR을 만듭니다.
 
-**Claude에게 맡길 때**
-- claude.ai/code 에서 이 레포를 선택하고 "Q-004 결정됐어. B안 '시작 전'으로 반영하고 PR 올려줘"처럼 요청하면, 관련 spec·용어집·질문 목록을 함께 고쳐 PR을 올립니다.
-- "004-card spec으로 `/speckit-clarify` 진행해줘"라고 하면 남은 질문을 하나씩 물어보고 답을 spec에 반영합니다.
+**AI 에이전트(Claude Code · Codex)에게 맡길 때**
+- Claude Code(claude.ai/code)나 Codex(chatgpt.com/codex)에서 이 레포를 연결하고 "Q-004 결정됐어. B안 '시작 전'으로 반영하고 PR 올려줘"처럼 요청하면, 관련 spec·용어집·질문 목록을 함께 고쳐 PR을 올립니다. 두 에이전트 모두 [`AGENTS.md`](AGENTS.md)의 같은 규칙을 따릅니다.
+- 남은 질문을 하나씩 물어보며 결정하고 싶으면 "004-card spec으로 clarify 진행해줘"라고 하세요. 명령으로 직접 부를 때는 Claude Code `/speckit-clarify`, Codex `$speckit-clarify` 입니다.
+- 에이전트가 올린 PR도 사람이 리뷰하고 승인해야 머지됩니다.
 
 ### 4. PR 리뷰하기
 
@@ -163,7 +164,7 @@ git -C spec diff HEAD..origin/main -- specs/004-card
 | 화면 컴포넌트 | `EditDateTimeSheet` 파일 상단 주석 `// EDIT-DATETIME` |
 | API 계약 (`openapi.yaml`) | 엔드포인트 설명에 관련 FR-ID |
 
-구현 계획(`plan.md`), 작업 목록(`tasks.md`), API 계약은 **각자 레포**에 둡니다. spec-kit을 쓴다면 FE/BE 레포에서 `/speckit-plan`, `/speckit-tasks`를 실행할 때 `spec/specs/###-*/spec.md`를 입력으로 줍니다.
+구현 계획(`plan.md`), 작업 목록(`tasks.md`), API 계약은 **각자 레포**에 둡니다. spec-kit을 쓴다면 FE/BE 레포에서 plan·tasks 명령(Claude Code `/speckit-plan`, Codex `$speckit-plan` 등)을 실행할 때 `spec/specs/###-*/spec.md`를 입력으로 줍니다.
 
 ### 6. 구현이 끝나면
 

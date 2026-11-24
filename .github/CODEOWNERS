@@ -21,3 +21,11 @@
 # 검사 도구, CI
 /scripts/                           @unplan-tave/frontend @unplan-tave/backend
 /.github/                           @unplan-tave/planning
+
+# AI 에이전트 지침과 spec-kit 스킬
+/AGENTS.md                          @unplan-tave/planning @unplan-tave/frontend @unplan-tave/backend
+/CLAUDE.md                          @unplan-tave/planning @unplan-tave/frontend @unplan-tave/backend
+/.claude/                           @unplan-tave/frontend @unplan-tave/backend
+/.agents/                           @unplan-tave/frontend @unplan-tave/backend
+/.specify/                          @unplan-tave/frontend @unplan-tave/backend
+/.specify/memory/constitution.md    @unplan-tave/planning @unplan-tave/design @unplan-tave/frontend @unplan-tave/backend

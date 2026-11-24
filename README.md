@@ -68,17 +68,20 @@ FE/BE 커밋·PR·테스트 이름, Figma 프레임 이름에 이 ID를 넣어 �
 - 구현 중 명세와 맞지 않는 점을 발견하면 **코드에서 임의로 정하지 말고** 이 레포에 Issue를 올립니다 (헌법 II).
 - 검증 규칙(글자 수, 개수 제한 등)과 enum 코드값은 `glossary.md`·`policies.md` 값을 그대로 씁니다.
 
-## spec-kit 명령 (Claude Code)
+## AI 에이전트 (Claude Code · Codex)
 
-이 레포에는 spec-kit Claude 스킬이 설치되어 있습니다 (`.claude/skills/`).
+두 에이전트 모두 같은 지침과 같은 spec-kit 명령을 씁니다.
 
-| 명령 | 이 레포에서의 용도 |
-|---|---|
-| `/speckit-specify` | 새 기능 spec 초안 작성 |
-| `/speckit-clarify` | spec의 모호한 부분을 질문으로 뽑아 결정 |
-| `/speckit-checklist` | 요구사항 품질 체크리스트 생성 |
-| `/speckit-analyze` | spec 간 일관성 점검 |
-| `/speckit-plan`, `/speckit-tasks`, `/speckit-implement` | FE/BE 레포에서 사용 |
+- 공통 지침: [`AGENTS.md`](AGENTS.md) (Codex가 읽음). `CLAUDE.md`는 이 파일을 불러오기만 합니다.
+- spec-kit 스킬: Claude Code `.claude/skills/`, Codex `.agents/skills/` (내용 동일, 호출 기호만 다름)
+
+| 용도 | Claude Code | Codex |
+|---|---|---|
+| spec의 모호한 부분을 질문으로 뽑아 결정 | `/speckit-clarify` | `$speckit-clarify` |
+| 요구사항 품질 체크리스트 생성 | `/speckit-checklist` | `$speckit-checklist` |
+| 새 기능 spec 초안 작성 | `/speckit-specify` | `$speckit-specify` |
+| spec 간 일관성 점검 | `/speckit-analyze` | `$speckit-analyze` |
+| 구현 계획·작업·구현 | FE/BE 레포에서 사용 | FE/BE 레포에서 사용 |
 
 ## 로컬 검사
 

@@ -12,3 +12,6 @@ extensions/*/local-config.yml
 # Execution consent is stored separately in the user's local trust registry.
 integrations/packages/
 integrations/packages.json
+
+# 통합 카탈로그 캐시 (specify CLI가 내려받음)
+integrations/.cache/
